@@ -1,10 +1,10 @@
+import io.qameta.allure.Attachment;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pages2.BaseTest;
-import pages2.KreditPodZalog;
-import pages2.MainPage;
+import pages2.*;
 import org.junit.jupiter.api.Test;
-import pages2.PremiumClient;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Класс для тестирования
@@ -83,6 +83,19 @@ public class MtsBankTest extends BaseTest {
         premiumClient.checkNumber(number,array[2]);
         premiumClient.checkCity(city,array[3]);
     }
+    @ParameterizedTest
+    @CsvSource({
+            "'Все'",
+            "'Кредитные'",
+            "'Дебетовые'",
+            "'Премиальные'",
+            "'Виртуальные'",
 
+    })
+    public void KardsTest(String type){
+        MainPage mainPage = new MainPage("https://www.mtsbank.ru/chastnim-licam/karti/all/credit/");
+        kards kards = new kards();
+        kards.SelectKard(type);
+    }
 
 }

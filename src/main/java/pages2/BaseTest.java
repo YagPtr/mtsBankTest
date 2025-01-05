@@ -20,6 +20,8 @@ abstract public class BaseTest {
 
         Configuration.browserSize= "1920x1080";
         Configuration.headless = true;
+        //Configuration.headless = false;
+
     }
 
     @BeforeEach
