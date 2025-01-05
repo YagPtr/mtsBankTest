@@ -17,8 +17,12 @@ jobs:
           java-version: '22'
       - name: "Использование ветки main репозитория"
         uses: actions/checkout@v3
-      - name: "Запуск тестов"
-        run: mvn clean test
+      - name: "Очистка директории"
+        run: mvn clean
+      - name: "Запуск тестов для компьютерной версии сайта"
+        run: mvn test -Dtest=MtsBankTest
+      - name: "Запуск тестов для мобильной версии сайта"
+        run: mvn test -Dtest=MtsBankMobileTest
         continue-on-error: true
       - name: "Генерация allure-report"
         uses: simple-elf/allure-report-action@master
