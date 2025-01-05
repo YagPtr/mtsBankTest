@@ -38,4 +38,10 @@ public class MainPage {
         SelenideElement premium = $x(menu + "]//a[contains(text(),\"Премиум\")]");
         premium.click();
     }
+
+    @Step
+    public void Cards(){
+        SelenideElement cards = $x(menu + "]//a[contains(text(),\"Карты\")]");
+        cards.click();
+    }
 }

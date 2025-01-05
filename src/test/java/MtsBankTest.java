@@ -1,5 +1,6 @@
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import pages2.*;
 
 /**
@@ -7,8 +8,9 @@ import pages2.*;
  * Создает экземпляр класса MainPage, использует его функции
  * После чего создает класс SearchPage страницы после поиска по запросу и использует его функции.
  */
-public class MtsBankTestDesktop extends BaseTestDesktop {
+public class MtsBankTest extends  BaseTestDesktop{
     private final static String URL= "https://www.mtsbank.ru/";
+
     @ParameterizedTest
     @CsvSource({
             "'а а а', 'a@a.ru', '1231231233','12.12.1984',4,1,0",
@@ -55,7 +57,6 @@ public class MtsBankTestDesktop extends BaseTestDesktop {
 
     }
 
-
     @ParameterizedTest
     @CsvSource({
             "'аа аа аа', '11.11.1999', '123123123123123','afasdas',3",
@@ -81,17 +82,24 @@ public class MtsBankTestDesktop extends BaseTestDesktop {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "'Все'",
-            "'Кредитные'",
-            "'Дебетовые'",
-            "'Премиальные'",
-            "'Виртуальные'",
-
-    })
-    public void KardsTest(String type){
-        MainPage mainPage = new MainPage("https://www.mtsbank.ru/chastnim-licam/karti/all/credit/");
-        kards kards = new kards();
+//    @CsvSource({
+//            "'Все'",
+//            "'Кредитные'",
+//            "'Дебетовые'",
+//            "'Премиальные'",
+//            "'Виртуальные'",
+//
+//    })
+    @ValueSource(strings = {"Все",
+            "Кредитные",
+            "Дебетовые",
+            "Премиальные",
+            "Виртуальные"})
+    public void whatevernameTest(String type){
+        MainPage mainPage = new MainPage(URL);
+        mainPage.Cards();
+        //MainPage mainPage = new MainPage("https://www.mtsbank.ru/chastnim-licam/karti/all/credit/");
+        Kards kards = new Kards();
         kards.SelectKard(type);
     }
 
