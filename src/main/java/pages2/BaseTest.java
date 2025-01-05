@@ -19,7 +19,7 @@ abstract public class BaseTest {
         Configuration.browser = "chrome";
 
         Configuration.browserSize= "1920x1080";
-        Configuration.headless = false;
+        Configuration.headless = true;
     }
 
     @BeforeEach
