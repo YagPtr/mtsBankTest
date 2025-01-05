@@ -1,17 +1,13 @@
-import io.qameta.allure.Attachment;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages2.*;
-import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Класс для тестирования
  * Создает экземпляр класса MainPage, использует его функции
  * После чего создает класс SearchPage страницы после поиска по запросу и использует его функции.
  */
-public class MtsBankTest extends BaseTest {
+public class MtsBankTestDesktop extends BaseTestDesktop {
     private final static String URL= "https://www.mtsbank.ru/";
     @ParameterizedTest
     @CsvSource({
