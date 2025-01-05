@@ -79,6 +79,7 @@ public class MtsBankTestDesktop extends BaseTestDesktop {
         premiumClient.checkNumber(number,array[2]);
         premiumClient.checkCity(city,array[3]);
     }
+
     @ParameterizedTest
     @CsvSource({
             "'Все'",
