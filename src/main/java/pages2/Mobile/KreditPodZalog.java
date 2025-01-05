@@ -96,8 +96,7 @@ public class KreditPodZalog {
         if (kreditYears>15){
             kreditYears=15;
         }
-        System.out.println(kreditYears);
-        System.out.println(kreditSize);
+
         city.scrollIntoCenter();
         city.setValue("с");
 
