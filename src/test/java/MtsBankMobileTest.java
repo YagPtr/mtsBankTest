@@ -1,11 +1,10 @@
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import pages2.Mobile.Kards;
+import pages2.Mobile.PremiumClient;
 import pages2.Mobile.BaseTestMobile;
 import pages2.Mobile.KreditPodZalog;
 import pages2.Mobile.MainPage;
-
-import java.util.concurrent.TimeUnit;
 
 public class MtsBankMobileTest extends BaseTestMobile {
     private final static String URL= "https://www.mtsbank.ru/";
@@ -42,7 +41,7 @@ public class MtsBankMobileTest extends BaseTestMobile {
         boolean[] array = new boolean[5];
         array[whatever] = true;
         MainPage mainPage = new MainPage(URL);
-        mainPage.fullfillKredit();
+        mainPage.openKreditPodZalog();
         KreditPodZalog kreditPodZalog = new KreditPodZalog();
         kreditPodZalog.fullfillKredit(size,years);
         kreditPodZalog.setFio(name,array[0]);
@@ -52,14 +51,53 @@ public class MtsBankMobileTest extends BaseTestMobile {
 
         kreditPodZalog.setBirthData(birth,array[3]);
 
-
         kreditPodZalog.setSogl();
 
-
-
-
-
     }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "'аа аа аа', '11.11.1999', '123123123123123','afasdas',3",
+            "'аа аа аа', '11.11.1999', '123123123123123','моск',4",
+            "'а а', '11.11.1999', '123123123123123','моск',4",
+            "'аа аа', '11.1', '123123123123123','моск',1",
+            "'аа аа', '11.11.1999', '123','моск',2",
+            "'аа аа', '11.11.1999', 'чето','моск',2",
+            "'eng lish', '11.11.1999', '123123123123','моск',0",
+            "'аа аа', '11.11.1900', '123123123123','моск',1",
+
+    })
+    public void premiumTest(String name, String data, String number,String city, Integer whatever) throws InterruptedException {
+        boolean[] array = new boolean[5];
+        array[whatever] = true;
+        MainPage mainPage = new MainPage(URL);
+        mainPage.openPremium();
+        PremiumClient premiumClient = new PremiumClient();
+        premiumClient.checkName(name,array[0]);
+        premiumClient.checkData(data,array[1]);
+        premiumClient.checkNumber(number,array[2]);
+        premiumClient.checkCity(city,array[3]);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "'Все'",
+            "'Кредитные'",
+            "'Дебетовые'",
+            "'Премиальные'",
+            "'Виртуальные'",
+
+    })
+    public void kardTest(String type){
+        MainPage mainPage = new MainPage(URL);
+        mainPage.openCards();
+        //MainPage mainPage = new MainPage("https://www.mtsbank.ru/chastnim-licam/karti/all/credit/");
+        Kards kards = new Kards();
+        kards.SelectKard(type);
+    }
+
+
 
 
 }

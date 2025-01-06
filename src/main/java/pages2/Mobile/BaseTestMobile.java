@@ -19,7 +19,7 @@ abstract public class BaseTestMobile {
         Configuration.browserSize= "1920x1080";
         Configuration.headless = true;
         Configuration.pageLoadTimeout=60000;
-        //Configuration.headless = false;
+        Configuration.headless = true;
 
 
     }
