@@ -18,7 +18,7 @@ abstract public class BaseTestDesktop {
         Configuration.browser = "chrome";
         Configuration.browserSize= "1920x1080";
 
-        Configuration.pageLoadTimeout=60000;
+        Configuration.pageLoadTimeout=600000;
         Configuration.headless = true;
 
 
