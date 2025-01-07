@@ -1,15 +1,22 @@
+import io.qameta.allure.*;
+import jdk.jfr.Label;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages2.Mobile.*;
 
 import static com.codeborne.selenide.Selenide.switchTo;
-
+@Epic("Тестирование мобильной версии сайта")
 public class MtsBankMobileTest extends BaseTestMobile {
     private final static String URL= "https://www.mtsbank.ru/";
-
+    @Feature("Проверка формы валидации для кредита под залог")
+    //@DisplayName("Проверка формы валидации для кредита под залог")
     @ParameterizedTest
     @CsvSource({
+            "'а а а', 'aa@a.ru', '1231231233','1.1.1',3,99999999,0",
             "'а ', 'aa@a.ru', '1231231233','12.12.1984',0,1234567,0",
             "'а а а', 'a@a.ru', '1231231233','12.12.1984',4,1,0",
             "'а а а', 'aa@a.ru', '1231231233','12.12.1984',4,1,0",
@@ -36,6 +43,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
             "'а а а', 'aa@a.ru', '1231231233','1.1.1',3,1,20",
             "'а а а', 'aaasdasru', '1231231233','12.12.1999',1,1,20",
     })
+    @Description("Проверка формы валидации данных о пользователе для кредита под залог")
+    @Tag("Regression")
     public void test(String name,String email,String number, String birth, Integer whatever, Integer size, Integer years) throws InterruptedException {
         boolean[] array = new boolean[5];
         array[whatever] = true;
@@ -54,7 +63,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
 
     }
 
-
+    @Feature("Проверка формы валидации для премиум клиента")
+    //@DisplayName("Проверка формы валидации для премиум клиента")
     @ParameterizedTest
     @CsvSource({
             "'аа аа аа', '11.11.1999', '123123123123123','afasdas',3",
@@ -67,6 +77,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
             "'аа аа', '11.11.1900', '123123123123','моск',1",
 
     })
+    @Description("Проверка формы валидации данных о пользователе для нового премиум клиента")
+    @Tag("Regression")
     public void premiumTest(String name, String data, String number,String city, Integer whatever) throws InterruptedException {
         boolean[] array = new boolean[5];
         array[whatever] = true;
@@ -79,6 +91,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
         premiumClient.checkCity(city,array[3]);
     }
 
+    @Feature("Проверка фильтров для карт")
+    //@DisplayName("Проверка фильтров для карт")
     @ParameterizedTest
     @CsvSource({
             "'Все'",
@@ -88,6 +102,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
             "'Виртуальные'",
 
     })
+    @Description("Проверка соответствия хотя бы одной карты каждому фильтру")
+    @Tag("Regression")
     public void kardTest(String type){
         MainPage mainPage = new MainPage(URL);
         mainPage.openCards();
@@ -96,6 +112,10 @@ public class MtsBankMobileTest extends BaseTestMobile {
         kards.SelectKard(type);
     }
 
+
+
+    @Feature("Проверка страницы блогов")
+    //@DisplayName("Проверка страницы блогов")
     @ParameterizedTest
     @CsvSource({
             "'Все'",
@@ -109,6 +129,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
             "'Платежи и переводы'",
             "'Инвестиции'",
     })
+    @Description("Проверка фильтров для статей")
+    @Tag("Regression")
     public void blogTest(String type){
         MainPage mainPage = new MainPage(URL);
         mainPage.openBlogs();
@@ -117,7 +139,11 @@ public class MtsBankMobileTest extends BaseTestMobile {
         blogs.checkFilter(type);
     }
 
-    @ParameterizedTest
+
+
+    @Feature("Проверка вклада для своих")
+    //@DisplayName("Проверка вклада для своих")
+    @ParameterizedTest()
     @CsvSource({
             "'аа аа', '11.1', '123123123123123','моск',1",
 
@@ -131,6 +157,8 @@ public class MtsBankMobileTest extends BaseTestMobile {
             "'аа аа', '11.11.1900', '123123123123','моск',1",
 
     })
+    @Description("Проверка формы валидации данных о пользователе для вклада для своих")
+    @Tag("Regression")
     public void vkladsTest(String fio,String birth, String number, String city, Integer whatever) throws InterruptedException {
         boolean[] array = new boolean[5];
         array[whatever] = true;

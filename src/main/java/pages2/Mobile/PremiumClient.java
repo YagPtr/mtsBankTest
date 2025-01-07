@@ -1,9 +1,13 @@
 package pages2.Mobile;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -26,23 +30,25 @@ public class PremiumClient {
         fio.scrollIntoCenter();
         fio.setValue(name);
         fio.sendKeys(Keys.TAB);
+        if (fioError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,fioError.isDisplayed());
     }
 
     @Step
     public void checkData(String data,boolean exp){
-        //birthData.click();
-        //birthData.setValue(data);
         birthData.scrollIntoCenter();
         for(char c:data.toCharArray()){
             birthData.sendKeys(String.valueOf(c));
             sleep(50);
-
-            //System.out.println(String.valueOf(c));
-            //TimeUnit.SECONDS.sleep(1);
-
         }
         birthData.sendKeys(Keys.TAB);
+        if (birthDataError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,birthDataError.isDisplayed());
     }
 
@@ -51,8 +57,13 @@ public class PremiumClient {
         number.scrollIntoCenter();
         number.setValue(numberIn);
         number.sendKeys(Keys.TAB);
+        if (numberError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,numberError.isDisplayed());
     }
+
     @Step
     public void checkCity(String cityIn,boolean exp) throws InterruptedException {
         city.scrollIntoCenter();
@@ -65,6 +76,10 @@ public class PremiumClient {
         }
         number.click();
         //TimeUnit.SECONDS.sleep(1);
+        if (cityError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,cityError.isDisplayed());
     }
 }

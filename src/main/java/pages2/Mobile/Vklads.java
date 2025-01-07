@@ -1,14 +1,18 @@
 package pages2.Mobile;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.devtools.v131.page.model.Screenshot;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
-import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 
 public class Vklads {
     private static final SelenideElement Fio = $x("//textarea[@placeholder=\"Иванов Иван Иванович\"]");
@@ -26,6 +30,10 @@ public class Vklads {
         Fio.scrollIntoCenter();
         Fio.setValue(fio);
         Fio.sendKeys(Keys.TAB);
+        if (FioError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp, FioError.isDisplayed());
 
 
@@ -43,7 +51,10 @@ public class Vklads {
 
         }
         number.sendKeys(Keys.TAB);
-
+        if (numberError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,numberError.isDisplayed());
     }
 
@@ -63,7 +74,10 @@ public class Vklads {
 
         birthData.sendKeys(Keys.TAB);
 
-
+        if (birthDataError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,birthDataError.isDisplayed());
 
     }
@@ -93,6 +107,10 @@ public class Vklads {
 
         city.sendKeys(Keys.TAB);
         //TimeUnit.SECONDS.sleep(1);
+        if (cityError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,cityError.isDisplayed());
     }
 

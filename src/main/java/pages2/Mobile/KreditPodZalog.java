@@ -1,10 +1,14 @@
 package pages2.Mobile;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -26,7 +30,8 @@ public class KreditPodZalog {
     private static final SelenideElement Fio = $x("//textarea[@placeholder=\"Иванов Иван Иванович\"]");
     private static final SelenideElement FioError=$x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"ФИО\")]");
     private static final SelenideElement birthData = $x("//input[@placeholder=\"дд.мм.гггг\"]");
-    private static final SelenideElement birthDataError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"Обязательное\")]");
+    private static final SelenideElement birthDataError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"дату\")]");
+    private static final SelenideElement birthDataError2 = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"Обязательное поле\")]");
     private static final SelenideElement number = $x("//input[@type=\"tel\"]");
     private static final SelenideElement numberError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"номер телефона\")]");
 
@@ -42,7 +47,7 @@ public class KreditPodZalog {
     private static final SelenideElement popUp = $x("//button[@class=\"Wrapper-sc-48arcs-1 dCpppl\"]");
 
 
-
+    @Step
     public void fullfillKredit(Integer kreditSize, Integer kreditYears) throws InterruptedException {
         amountOfKredit.scrollIntoCenter();
         amountOfKredit.click();
@@ -57,19 +62,6 @@ public class KreditPodZalog {
             sleep(50);
 
         }
-
-//        if (kreditSize==1){
-//            //amountOfKredit.setValue("");
-//            amountOfKredit.setValue("");
-//
-//            kreditSize=1000000;
-//
-//        }
-//
-//        else {
-//            amountOfKredit.setValue("999999999");
-//            kreditSize=15000000;
-//        }
 
         kreditSize=((int)(kreditSize/10000))*10000;
         if (kreditSize<1000000){
@@ -106,16 +98,20 @@ public class KreditPodZalog {
         reason.click();
         choseReason.scrollIntoCenter();
         choseReason.click();
+
         Assertions.assertEquals(true,true);
-        //System.out.println(kreditPersent.getText());
-        //System.out.println(kreditPerMonth.getText());
+
         Double kreditPercent=Double.parseDouble(kreditPersent.getText().substring(0,kreditPersent.getText().indexOf("%")).replace(",","."))/1200;
 
 
-        //System.out.println(kreditPercent);
+
         Double perMonth=(Math.pow((1+kreditPercent),12*kreditYears)*kreditPercent)/(Math.pow((1+kreditPercent),12*kreditYears)-1)*kreditSize;
-        //System.out.println(perMonth);
+
         Integer money =(int)Math.ceil(perMonth);
+        if (!(money.toString().equals(kreditPerMonth.getText().replace(" ","").replace("₽","")))){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(money.toString(),kreditPerMonth.getText().replace(" ","").replace("₽",""));
 ///=(E4*(1+E4)^60)/((1+E4)^60-1)
 
@@ -136,6 +132,12 @@ public class KreditPodZalog {
             move2.scrollIntoCenter();
             move2.click();
         }
+
+        if (FioError.isDisplayed()!=exp){
+            Fio.scrollIntoCenter();
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp, FioError.isDisplayed());
 
 
@@ -154,6 +156,12 @@ public class KreditPodZalog {
             move2.scrollIntoCenter();
             move2.click();
         }
+        if (numberError.isDisplayed()!=exp){
+            number.scrollIntoCenter();
+
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,numberError.isDisplayed());
     }
 
@@ -161,9 +169,7 @@ public class KreditPodZalog {
     public void setMail(String mai,boolean exp) throws InterruptedException {
         mail.scrollIntoCenter();
         mail.setValue(mai);
-//        TimeUnit.SECONDS.sleep(1);
-//        mail.click();
-//        mail.sendKeys(Keys.ENTER);
+
         if (move.isEnabled()&&move.isDisplayed()){
             move.scrollIntoCenter();
 
@@ -174,9 +180,16 @@ public class KreditPodZalog {
             move2.scrollIntoCenter();
             move2.click();
         }
+        if (mailError.isDisplayed()!=exp){
+            mail.scrollIntoCenter();
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,mailError.isDisplayed());
     }
-    //форма не успевает.
+
+
     @Step
     public void setBirthData(String birthData1,boolean exp) throws InterruptedException {
         birthData.scrollIntoCenter();
@@ -204,8 +217,13 @@ public class KreditPodZalog {
         if (popUp.isDisplayed()) {
             popUp.click();
         }
-
-        Assertions.assertEquals(exp,birthDataError.isDisplayed());
+        if ((birthDataError.isDisplayed()||birthDataError2.isDisplayed())!=exp){
+            birthData.scrollIntoCenter();
+            sleep(1000);
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
+        Assertions.assertEquals(exp,birthDataError.isDisplayed()||birthDataError2.isDisplayed());
 
     }
 
@@ -225,6 +243,11 @@ public class KreditPodZalog {
         else {
             move2.scrollIntoCenter();
             move2.click();
+        }
+        if (soglError.isDisplayed()!=false){
+            soglError.scrollIntoCenter();
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
         Assertions.assertFalse(soglError.isDisplayed());
 

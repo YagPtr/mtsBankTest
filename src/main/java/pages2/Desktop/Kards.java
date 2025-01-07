@@ -1,9 +1,14 @@
 package pages2.Desktop;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.OutputType;
+
+import java.io.ByteArrayInputStream;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -20,6 +25,10 @@ public class Kards {
         filters.forEach(
                 filter -> {
                     filter.click();
+                    if ((type1.exists() || type2.exists())!=true){
+                        byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+                        Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+                    }
                     Assertions.assertEquals(true,type1.exists() || type2.exists(),"должна быть хотя бы одна карта с данным фильтром: "+filter.getText());
                     filter.click();
                 }

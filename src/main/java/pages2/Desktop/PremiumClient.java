@@ -1,10 +1,14 @@
 package pages2.Desktop;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.$x;
@@ -21,10 +25,15 @@ public class PremiumClient {
     private final static SelenideElement city = $x("//input[@placeholder=\"Выберите город\"]");
     private final static SelenideElement cityError=$x("//div[@label=\"Город получения карты\"]/../../../../div[@data-testid=\"text\"]");
     private final static SelenideElement choseCity=$x("//ul[@class=\"react-autosuggest__suggestions-list\"]");
+
     @Step
     public void checkName(String name,boolean exp){
         fio.setValue(name);
         fio.sendKeys(Keys.TAB);
+        if (fioError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,fioError.isDisplayed());
     }
 
@@ -33,6 +42,10 @@ public class PremiumClient {
         //birthData.click();
         birthData.setValue(data);
         birthData.sendKeys(Keys.TAB);
+        if (birthDataError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,birthDataError.isDisplayed());
     }
 
@@ -40,8 +53,13 @@ public class PremiumClient {
     public void checkNumber(String numberIn,boolean exp){
         number.setValue(numberIn);
         number.sendKeys(Keys.TAB);
+        if (numberError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,numberError.isDisplayed());
     }
+
     @Step
     public void checkCity(String cityIn,boolean exp) throws InterruptedException {
         city.setValue(cityIn);
@@ -51,7 +69,10 @@ public class PremiumClient {
             choseCity.click();
         }
         number.click();
-        //TimeUnit.SECONDS.sleep(1);
+        if (cityError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,cityError.isDisplayed());
     }
 }

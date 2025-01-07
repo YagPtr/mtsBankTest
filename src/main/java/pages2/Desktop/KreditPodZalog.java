@@ -1,10 +1,14 @@
 package pages2.Desktop;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.$$x;
@@ -25,7 +29,8 @@ public class KreditPodZalog {
     private static final SelenideElement Fio = $x("//textarea[@placeholder=\"Иванов Иван Иванович\"]");
     private static final SelenideElement FioError=$x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"ФИО\")]");
     private static final SelenideElement birthData = $x("//input[@placeholder=\"дд.мм.гггг\"]");
-    private static final SelenideElement birthDataError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"Обязательное\")]");
+    private static final SelenideElement birthDataError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"дату\")]");
+    private static final SelenideElement birthDataError2 = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"Обязательное поле\")]");
     private static final SelenideElement number = $x("//input[@type=\"tel\"]");
     private static final SelenideElement numberError = $x("//div[@class=\"Wrapper-sc-1vydk7-0 gnJtJP HelperText-sc-jsokzo-0 hByJHf\" and contains(text(),\"номер телефона\")]");
 
@@ -71,6 +76,10 @@ public class KreditPodZalog {
         Double perMonth=(Math.pow((1+kreditPercent),12*kreditYears)*kreditPercent)/(Math.pow((1+kreditPercent),12*kreditYears)-1)*kreditSize;
         //System.out.println(perMonth);
         Integer money =(int)Math.ceil(perMonth);
+        if (!(money.toString().equals(kreditPerMonth.getText().replace(" ","").replace("₽","")))){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(money.toString(),kreditPerMonth.getText().replace(" ","").replace("₽",""));
 ///=(E4*(1+E4)^60)/((1+E4)^60-1)
         chosePlace.setValue("калинин");
@@ -82,24 +91,25 @@ public class KreditPodZalog {
         makeKredit.click();
     }
 
-    @Step
-    public void correctData() throws InterruptedException {
-        Fio.setValue("а а а ");
-        birthData.setValue("12.11.1984");
-        number.setValue("9801281212");
-        mail.setValue("aa@a.r");
-        TimeUnit.SECONDS.sleep(1);
-        mail.click();
-        mail.sendKeys(Keys.ENTER);
+//    @Step
+//    public void correctData() throws InterruptedException {
+//        Fio.setValue("а а а ");
+//        birthData.setValue("12.11.1984");
+//        number.setValue("9801281212");
+//        mail.setValue("aa@a.r");
+//        TimeUnit.SECONDS.sleep(1);
+//        mail.click();
+//        mail.sendKeys(Keys.ENTER);
+//
+//        sogl2.click();
+//        if (move.isEnabled()&&move.isDisplayed()){
+//            move.click();
+//
+//        }
+//        else move2.click();
+//
+//    }
 
-        sogl2.click();
-        if (move.isEnabled()&&move.isDisplayed()){
-            move.click();
-
-        }
-        else move2.click();
-
-    }
     @Step
     public void setFio(String fio,boolean exp){
         Fio.setValue(fio);
@@ -108,6 +118,10 @@ public class KreditPodZalog {
 
         }
         else move2.click();
+        if (FioError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp, FioError.isDisplayed());
 
 
@@ -120,6 +134,10 @@ public class KreditPodZalog {
 
         }
         else move2.click();
+        if (numberError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,numberError.isDisplayed());
     }
 
@@ -134,6 +152,10 @@ public class KreditPodZalog {
 
         }
         else move2.click();
+        if (mailError.isDisplayed()!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertEquals(exp,mailError.isDisplayed());
     }
     @Step
@@ -148,7 +170,12 @@ public class KreditPodZalog {
         if (popUp.isDisplayed()) {
             popUp.click();
         }
-        Assertions.assertEquals(exp,birthDataError.isDisplayed());
+
+        if ((birthDataError.isDisplayed()||birthDataError2.isDisplayed())!=exp){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
+        Assertions.assertEquals(exp,birthDataError.isDisplayed()||birthDataError2.isDisplayed());
 
     }
 
@@ -163,6 +190,10 @@ public class KreditPodZalog {
 
         }
         else move2.click();
+        if (soglError.isDisplayed()!=false){
+            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
+        }
         Assertions.assertFalse(soglError.isDisplayed());
 
     }
