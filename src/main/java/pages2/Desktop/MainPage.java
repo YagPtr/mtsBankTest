@@ -43,5 +43,19 @@ public class MainPage {
     public void Cards(){
         SelenideElement cards = $x(menu + "]//a[contains(text(),\"Карты\")]");
         cards.click();
+
+    }
+
+    @Step
+    public void Blogs(){
+        SelenideElement blogs=$x("//div[contains(text(),\"Полезная информация\")]");
+        blogs.click();
+    }
+
+    @Step
+    public void Partners(){
+        SelenideElement partners = $x(menu + "]//a[contains(text(),\"Private\")]");
+        partners.click();
+        $x("//div[contains(text(),\"предложения\")]").click();
     }
 }

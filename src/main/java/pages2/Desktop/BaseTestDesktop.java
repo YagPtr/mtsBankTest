@@ -17,9 +17,9 @@ abstract public class BaseTestDesktop {
         //System.setProperty("chromeoptions.mobileEmulation", "deviceName=Nexus 5");
         Configuration.browser = "chrome";
         Configuration.browserSize= "1920x1080";
+
+        Configuration.pageLoadTimeout=600000;
         Configuration.headless = true;
-        Configuration.pageLoadTimeout=60000;
-        //Configuration.headless = false;
 
 
     }

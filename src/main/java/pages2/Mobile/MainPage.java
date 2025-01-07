@@ -11,8 +11,12 @@ public class MainPage {
     private final SelenideElement closeCity = $x("//button[@class=\"Wrapper-sc-16137b7a-1 cVZbNd sc-dlfnuX iSGgmM\"]");
     private final SelenideElement kreditPodZalog = $x("//h4//div[contains(text(),\"ПОД ЗАЛОГ\")]/../../..//div[@class=\"Wrapper-sc-1vydk7-0 bQSysR ButtonText-sc-48arcs-2 ivMpRV\"]");
     private final SelenideElement cards = $x("//img[@alt=\"Дебетовые\"]");
+    private final SelenideElement blogs = $x("//img[@alt=\"Блог\"]");
 
     private final SelenideElement premium = $x("//img[@alt=\"Премиум\"]");
+    private final SelenideElement vklad = $x("//img[@alt=\"Вклады\"]");
+    private final SelenideElement vkladDlyaSvoih = $x("//h2[contains(text(),\"Вклад Для своих\")]/..");
+
     public MainPage(String URL) {
         Selenide.open(URL);
     }
@@ -40,6 +44,24 @@ public class MainPage {
         closeCity.click();
         cards.scrollIntoCenter();
         cards.click();
+    }
+
+    @Step
+    public void openBlogs(){
+        closeCard.click();
+        closeCity.click();
+        blogs.scrollIntoCenter();
+        blogs.click();
+    }
+
+    @Step
+    public void openVklads(){
+        closeCard.click();
+        closeCity.click();
+        vklad.scrollIntoCenter();
+        vklad.click();
+        vkladDlyaSvoih.scrollIntoCenter();
+        vkladDlyaSvoih.click();
     }
 
 }

@@ -1,6 +1,9 @@
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages2.Desktop.*;
+
+import static com.codeborne.selenide.Selenide.switchTo;
 
 /**
  * Класс для тестирования
@@ -96,5 +99,36 @@ public class MtsBankTest extends BaseTestDesktop {
         Kards kards = new Kards();
         kards.SelectKard(type);
     }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "'Все'",
+            "'Вклады и счета'",
+            "'Кредитование'",
+            "'Кредитные карты'",
+            "'Дебетовые карты'",
+            "'Ипотека'",
+            "'Бизнес'",
+            "'Премиум'",
+            "'Платежи и переводы'",
+            "'Инвестиции'",
+    })
+    public void blogTest(String type){
+        MainPage mainPage = new MainPage(URL);
+        mainPage.Blogs();
+        switchTo().window(1);
+        Blogs blogs = new Blogs();
+        blogs.checkFilter(type);
+    }
+
+    @Test
+    public void partnersTest(){
+        MainPage mainPage = new MainPage(URL);
+        mainPage.Partners();
+        Partners partners = new Partners();
+        partners.checkPartners();
+    }
+
 
 }
