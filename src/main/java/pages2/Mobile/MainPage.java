@@ -20,7 +20,7 @@ public class MainPage {
     public MainPage(String URL) {
         Selenide.open(URL);
     }
-    @Step
+    @Step("Переход на страницу кредита под залог")
     public void openKreditPodZalog() throws InterruptedException {
         closeCard.click();
         closeCity.click();
@@ -29,7 +29,7 @@ public class MainPage {
         kreditPodZalog.click();
     }
 
-    @Step
+    @Step("Переход на страницу премиум услуг")
     public void openPremium(){
         closeCard.click();
         closeCity.click();
@@ -38,7 +38,7 @@ public class MainPage {
 
     }
 
-    @Step
+    @Step("Переход на страницу предлагаемых карт")
     public void openCards(){
         closeCard.click();
         closeCity.click();
@@ -46,7 +46,7 @@ public class MainPage {
         cards.click();
     }
 
-    @Step
+    @Step("Переход на страницу блогов")
     public void openBlogs(){
         closeCard.click();
         closeCity.click();
@@ -54,7 +54,7 @@ public class MainPage {
         blogs.click();
     }
 
-    @Step
+    @Step("Переход на страницу вклада для СВОих")
     public void openVklads(){
         closeCard.click();
         closeCity.click();

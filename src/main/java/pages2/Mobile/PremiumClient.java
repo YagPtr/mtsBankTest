@@ -25,20 +25,28 @@ public class PremiumClient {
     private final static SelenideElement cityError=$x("//div[@label=\"Город получения карты\"]/../../../../div[@data-testid=\"text\"]");
     private final static SelenideElement choseCity=$x("//ul[@class=\"react-autosuggest__suggestions-list\"]");
 
-    @Step
+    @Step("Ввод ФИО")
     public void checkName(String name,boolean exp){
+        String error="";
         fio.scrollIntoCenter();
         fio.setValue(name);
         fio.sendKeys(Keys.TAB);
         if (fioError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+name+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+name+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,fioError.isDisplayed());
+        Assertions.assertEquals(exp,fioError.isDisplayed(),error);
     }
 
-    @Step
+    @Step("Ввод даты рождения")
     public void checkData(String data,boolean exp){
+        String error="";
         birthData.scrollIntoCenter();
         for(char c:data.toCharArray()){
             birthData.sendKeys(String.valueOf(c));
@@ -46,26 +54,40 @@ public class PremiumClient {
         }
         birthData.sendKeys(Keys.TAB);
         if (birthDataError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+data+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+data+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,birthDataError.isDisplayed());
+        Assertions.assertEquals(exp,birthDataError.isDisplayed(),error);
     }
 
-    @Step
+    @Step("Ввод номера")
     public void checkNumber(String numberIn,boolean exp){
+        String error="";
         number.scrollIntoCenter();
         number.setValue(numberIn);
         number.sendKeys(Keys.TAB);
         if (numberError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+numberIn+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+numberIn+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,numberError.isDisplayed());
+        Assertions.assertEquals(exp,numberError.isDisplayed(),error);
     }
 
-    @Step
+    @Step("Ввод города")
     public void checkCity(String cityIn,boolean exp) throws InterruptedException {
+        String error="";
         city.scrollIntoCenter();
         city.setValue(cityIn);
         TimeUnit.SECONDS.sleep(1);
@@ -77,9 +99,15 @@ public class PremiumClient {
         number.click();
         //TimeUnit.SECONDS.sleep(1);
         if (cityError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+cityIn+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+cityIn+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,cityError.isDisplayed());
+        Assertions.assertEquals(exp,cityError.isDisplayed(),error);
     }
 }

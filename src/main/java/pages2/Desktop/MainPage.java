@@ -23,7 +23,7 @@ public class MainPage {
      *Заполнение формы запроса поиска
      * @throws InterruptedException
      */
-    @Step
+    @Step("Переход на страницу кредита под залог")
     public void KreditPodZalog() throws InterruptedException {
         SelenideElement credits=$x(menu+"]//a[contains(text(),\"Кредиты\")]");
         credits.hover();
@@ -33,26 +33,26 @@ public class MainPage {
 
     }
 
-    @Step
+    @Step("Переход на страницу премиум услуг")
     public void PremiumClient() {
         SelenideElement premium = $x(menu + "]//a[contains(text(),\"Премиум\")]");
         premium.click();
     }
 
-    @Step
+    @Step("Переход на страницу предлагаемых карт")
     public void Cards(){
         SelenideElement cards = $x(menu + "]//a[contains(text(),\"Карты\")]");
         cards.click();
 
     }
 
-    @Step
+    @Step("Переход на страницу блогов")
     public void Blogs(){
         SelenideElement blogs=$x("//div[contains(text(),\"Полезная информация\")]");
         blogs.click();
     }
 
-    @Step
+    @Step("Переход на страницу партнеров")
     public void Partners(){
         SelenideElement partners = $x(menu + "]//a[contains(text(),\"Private\")]");
         partners.click();

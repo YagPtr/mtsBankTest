@@ -47,7 +47,7 @@ public class KreditPodZalog {
     private static final SelenideElement popUp = $x("//button[@class=\"Wrapper-sc-48arcs-1 dCpppl\"]");
 
 
-    @Step
+    @Step("Заполнение формы кредита")
     public void fullfillKredit(Integer kreditSize, Integer kreditYears) throws InterruptedException {
         amountOfKredit.scrollIntoCenter();
         amountOfKredit.click();
@@ -112,15 +112,17 @@ public class KreditPodZalog {
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(money.toString(),kreditPerMonth.getText().replace(" ","").replace("₽",""));
+        Assertions.assertEquals(money.toString(),kreditPerMonth.getText().replace(" ","").replace("₽",""),"Ожидаемое значение ежемесячной выплаты не совпадает с итоговым");
 ///=(E4*(1+E4)^60)/((1+E4)^60-1)
 
         makeKredit.scrollIntoCenter();
         makeKredit.click();
     }
 
-    @Step
+    @Step("Ввод ФИО")
     public void setFio(String fio,boolean exp){
+        String error="";
+
         Fio.scrollIntoCenter();
         Fio.setValue(fio);
         if (move.isEnabled()&&move.isDisplayed()){
@@ -134,16 +136,23 @@ public class KreditPodZalog {
         }
 
         if (FioError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+fio+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+fio+" НЕ должно было вызвать ошибку";
+            }
             Fio.scrollIntoCenter();
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp, FioError.isDisplayed());
+        Assertions.assertEquals(exp, FioError.isDisplayed(),error);
 
 
     }
-    @Step
+    @Step("Ввод номера")
     public void setNumber(String num,boolean exp){
+        String error="";
         number.scrollIntoCenter();
         number.setValue(num);
         if (move.isEnabled()&&move.isDisplayed()){
@@ -157,16 +166,23 @@ public class KreditPodZalog {
             move2.click();
         }
         if (numberError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+num+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+num+" НЕ должно было вызвать ошибку";
+            }
             number.scrollIntoCenter();
 
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,numberError.isDisplayed());
+        Assertions.assertEquals(exp,numberError.isDisplayed(),error);
     }
 
-    @Step
+    @Step("Ввод email")
     public void setMail(String mai,boolean exp) throws InterruptedException {
+        String error="";
         mail.scrollIntoCenter();
         mail.setValue(mai);
 
@@ -181,17 +197,24 @@ public class KreditPodZalog {
             move2.click();
         }
         if (mailError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+mai+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+mai+" НЕ должно было вызвать ошибку";
+            }
             mail.scrollIntoCenter();
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
 
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,mailError.isDisplayed());
+        Assertions.assertEquals(exp,mailError.isDisplayed(),error);
     }
 
 
-    @Step
+    @Step("Ввод даты рождения")
     public void setBirthData(String birthData1,boolean exp) throws InterruptedException {
+        String error="";
         birthData.scrollIntoCenter();
         //birthData.setValue(birthData1);
 
@@ -218,16 +241,22 @@ public class KreditPodZalog {
             popUp.click();
         }
         if ((birthDataError.isDisplayed()||birthDataError2.isDisplayed())!=exp){
+            if (exp){
+                error="Значение "+birthData1+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+birthData1+" НЕ должно было вызвать ошибку";
+            }
             birthData.scrollIntoCenter();
             sleep(1000);
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,birthDataError.isDisplayed()||birthDataError2.isDisplayed());
+        Assertions.assertEquals(exp,birthDataError.isDisplayed()||birthDataError2.isDisplayed(),error);
 
     }
 
-    @Step
+    @Step("Выдача согласия")
     public void setSogl() throws InterruptedException {
         if (sogl2.exists()){
             sogl2.scrollIntoCenter();
@@ -249,23 +278,11 @@ public class KreditPodZalog {
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertFalse(soglError.isDisplayed());
+        Assertions.assertFalse(soglError.isDisplayed(),"Ошибки отсутствия согласия не должно было быть");
 
     }
 
-    @Step
-    public void confirm(){
-        if (move.isEnabled()&&move.isDisplayed()){
-            move.scrollIntoCenter();
 
-            move.isEnabled();
-
-        }
-        else {
-            move2.scrollIntoCenter();
-            move2.click();
-        }
-    }
 
 
 }

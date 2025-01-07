@@ -25,21 +25,29 @@ public class Vklads {
     private final static SelenideElement cityError=$x("//div[@label=\"Город получения карты\"]/../../../../div[@data-testid=\"text\"]");
     private final static SelenideElement choseCity=$x("//div[@id=\"react-autowhatever-1\"]");
 
-    @Step
+    @Step("Ввод ФИО")
     public void setFio(String fio,boolean exp){
+        String error="";
         Fio.scrollIntoCenter();
         Fio.setValue(fio);
         Fio.sendKeys(Keys.TAB);
         if (FioError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+fio+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+fio+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp, FioError.isDisplayed());
+        Assertions.assertEquals(exp, FioError.isDisplayed(),error);
 
 
     }
-    @Step
+    @Step("Ввод номера")
     public void setNumber(String num,boolean exp){
+        String error="";
         number.scrollIntoCenter();
         //number.setValue(num);
         for(char c:num.toCharArray()){
@@ -52,14 +60,21 @@ public class Vklads {
         }
         number.sendKeys(Keys.TAB);
         if (numberError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+num+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+num+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,numberError.isDisplayed());
+        Assertions.assertEquals(exp,numberError.isDisplayed(),error);
     }
 
-    @Step
+    @Step("Ввод даты рождения")
     public void setBirthData(String birthData1,boolean exp) throws InterruptedException {
+        String error="";
         birthData.scrollIntoCenter();
         //birthData.setValue(birthData1);
 
@@ -75,15 +90,22 @@ public class Vklads {
         birthData.sendKeys(Keys.TAB);
 
         if (birthDataError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+birthData1+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+birthData1+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,birthDataError.isDisplayed());
+        Assertions.assertEquals(exp,birthDataError.isDisplayed(),error);
 
     }
 
-    @Step
+    @Step("Ввод города")
     public void checkCity(String cityIn,boolean exp) throws InterruptedException {
+        String error="";
         city.scrollIntoCenter();
 
         //city.click();
@@ -108,10 +130,16 @@ public class Vklads {
         city.sendKeys(Keys.TAB);
         //TimeUnit.SECONDS.sleep(1);
         if (cityError.isDisplayed()!=exp){
+            if (exp){
+                error="Значение "+cityIn+" должно было вызвать ошибку";
+            }
+            else{
+                error="Значение "+cityIn+" НЕ должно было вызвать ошибку";
+            }
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(exp,cityError.isDisplayed());
+        Assertions.assertEquals(exp,cityError.isDisplayed(),error);
     }
 
 

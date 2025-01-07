@@ -16,13 +16,14 @@ import static com.codeborne.selenide.Selenide.*;
 public class Blogs {
     private final String baseString=" //div[@class=\"sc-bdfBQB buqMpI\"]//span//div[contains(text(),\"";
     private final SelenideElement article=$x("//div[@class=\"styled__Cell-sc-1m4bvj-0 KxMnx\"]");
-    @Step
+
+    @Step("Проверка фильтров")
     public void checkFilter(String type){
         $x(baseString+type+"\")]").click();
         if (article.isDisplayed()!=true){
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(true,article.isDisplayed());
+        Assertions.assertEquals(true,article.isDisplayed(),"При фильтре "+type+" нет ни одной статьи");
     }
 }

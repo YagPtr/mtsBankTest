@@ -16,7 +16,7 @@ public class Blogs {
     private final SelenideElement article=$x("//div[@class=\"styled__Cell-sc-1m4bvj-0 KxMnx\"]");
     private final SelenideElement moreFilters=$x("//span[@class=\"Wrapper-sc-1vwahr7-0 pMMLf\"]//div[contains(text(),\"+\")]");
 
-    @Step
+    @Step("Проверка фильтров")
     public void checkFilter(String type){
         if (moreFilters.isDisplayed()){
             moreFilters.click();
@@ -26,6 +26,6 @@ public class Blogs {
             byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
             Allure.addAttachment("image.png",new ByteArrayInputStream(screenshot));
         }
-        Assertions.assertEquals(true,article.isDisplayed());
+        Assertions.assertEquals(true,article.isDisplayed(),"При фильтре "+type+" нет ни одной статьи");
     }
 }
