@@ -1,9 +1,9 @@
 name: DZ4
 
 on:
-    push
-  #schedule:
-  #  - cron: '*/15 * * * *'
+#    push
+  schedule:
+    - cron: '1 */6 * * *'
 
 jobs:
   run_tests:

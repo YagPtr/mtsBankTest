@@ -1,9 +1,5 @@
 import io.qameta.allure.*;
-import jdk.jfr.Label;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages2.Mobile.*;
@@ -49,15 +45,13 @@ public class MtsBankMobileTest extends BaseTestMobile {
         array[whatever] = true;
         MainPage mainPage = new MainPage(URL);
         mainPage.openKreditPodZalog();
+
         KreditPodZalog kreditPodZalog = new KreditPodZalog();
         kreditPodZalog.fullfillKredit(size,years);
         kreditPodZalog.setFio(name,array[0]);
         kreditPodZalog.setMail(email,array[1]);
-
         kreditPodZalog.setNumber(number,array[2]);
-
         kreditPodZalog.setBirthData(birth,array[3]);
-
         kreditPodZalog.setSogl();
 
     }
@@ -83,6 +77,7 @@ public class MtsBankMobileTest extends BaseTestMobile {
         array[whatever] = true;
         MainPage mainPage = new MainPage(URL);
         mainPage.openPremium();
+
         PremiumClient premiumClient = new PremiumClient();
         premiumClient.checkName(name,array[0]);
         premiumClient.checkData(data,array[1]);
@@ -106,7 +101,7 @@ public class MtsBankMobileTest extends BaseTestMobile {
     public void kardTest(String type){
         MainPage mainPage = new MainPage(URL);
         mainPage.openCards();
-        //MainPage mainPage = new MainPage("https://www.mtsbank.ru/chastnim-licam/karti/all/credit/");
+
         Kards kards = new Kards();
         kards.SelectKard(type);
     }
@@ -114,7 +109,6 @@ public class MtsBankMobileTest extends BaseTestMobile {
 
 
     @Feature("Проверка страницы блогов")
-    //@DisplayName("Проверка страницы блогов")
     @ParameterizedTest
     @CsvSource({
             "'Все'",
@@ -134,6 +128,7 @@ public class MtsBankMobileTest extends BaseTestMobile {
         MainPage mainPage = new MainPage(URL);
         mainPage.openBlogs();
         switchTo().window(1);
+
         Blogs blogs = new Blogs();
         blogs.checkFilter(type);
     }
@@ -141,7 +136,6 @@ public class MtsBankMobileTest extends BaseTestMobile {
 
 
     @Feature("Проверка вклада для своих")
-    //@DisplayName("Проверка вклада для своих")
     @ParameterizedTest()
     @CsvSource({
             "'им фа', '11.1', '123123123123123','моск',1",
@@ -161,12 +155,11 @@ public class MtsBankMobileTest extends BaseTestMobile {
         array[whatever] = true;
         MainPage mainPage = new MainPage(URL);
         mainPage.openVklads();
+
         Vklads vklads = new Vklads();
         vklads.setFio(fio, array[0]);
         vklads.setBirthData(birth,array[1]);
-
         vklads.setNumber(number, array[2]);
-
         vklads.checkCity(city,array[3]);
 
     }
