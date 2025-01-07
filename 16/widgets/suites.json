@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"a6270cdf5385451923169f41808f4d4e","name":"MtsBankMobileTest","statistic":{"failed":6,"broken":0,"skipped":0,"passed":51,"unknown":0,"total":57}},{"uid":"26cd1d7413049969e25d34eb85585802","name":"MtsBankTest","statistic":{"failed":6,"broken":0,"skipped":0,"passed":42,"unknown":0,"total":48}}]}
