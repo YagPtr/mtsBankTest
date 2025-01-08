@@ -58,6 +58,9 @@ public class KreditPodZalog {
         listOfObjects.click();
         choseObject.click();
 
+
+        kreditSize=((int)(kreditSize/10000))*10000;
+
         if (kreditSize<1000000){
             kreditSize=1000000;
         }
