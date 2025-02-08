@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"a1e91b0c9c123ce55b6cf63165cd93e3","name":"Тестирование мобильной версии сайта","statistic":{"failed":5,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":5}},{"uid":"341cd1256ee8b165276e6a280d6d070e","name":"Тестирование полной версии сайта","statistic":{"failed":4,"broken":1,"skipped":0,"passed":0,"unknown":0,"total":5}}]}
